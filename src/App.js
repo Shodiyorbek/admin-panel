@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, NavLink, Routes } from "react-router-dom";
+import Message from "./Message";
+import Tour from "./Tour";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <BrowserRouter>
+        <div>
+          <nav className={"container"}>
+
+                <NavLink className={"btn btn-outline-primary"} to="/tour" activeClassName="active">
+                  Tour
+                </NavLink>
+
+                <NavLink className={"btn btn-outline-primary"} to="/messages" activeClassName="active">
+                  Messages
+                </NavLink>
+
+          </nav>
+
+          <Routes>
+            <Route path="/tour" element={<Tour />} />
+            <Route path="/messages" element={<Message />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
   );
 }
 
