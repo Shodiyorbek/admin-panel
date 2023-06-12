@@ -1,30 +1,30 @@
-import React from "react";
-import { BrowserRouter, Route, NavLink, Routes } from "react-router-dom";
-import Message from "./Message";
-import Tour from "./Tour";
+import React, {useEffect, useState} from "react";
+import Auth from "./Auth";
+import Main from "./Main";
 
 function App() {
+    const [isLoggIn,setIsLoggin]=useState('')
+
+
+
+
+        useEffect(()=>{
+            if(localStorage.getItem('accessToken')){
+                const decodedToken = JSON.parse(atob(localStorage.getItem("accessToken").split('.')[1]));
+                const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
+                const currentTime = new Date().getTime();
+                if(expirationTime < currentTime ){
+                    setIsLoggin(false);
+                }
+            }
+
+        setIsLoggin(localStorage.getItem('accessToken'))
+
+    }, [])
   return (
-      <BrowserRouter>
-        <div>
-          <nav className={"container"}>
-
-                <NavLink className={"btn btn-outline-primary"} to="/tour" activeClassName="active">
-                  Tour
-                </NavLink>
-
-                <NavLink className={"btn btn-outline-primary"} to="/messages" activeClassName="active">
-                  Messages
-                </NavLink>
-
-          </nav>
-
-          <Routes>
-            <Route path="/tour" element={<Tour />} />
-            <Route path="/messages" element={<Message />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+     <>
+         {isLoggIn?<Main/>:<Auth/>}
+     </>
   );
 }
 

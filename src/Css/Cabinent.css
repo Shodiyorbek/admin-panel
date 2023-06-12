@@ -1,0 +1,54 @@
+.card-main-chart li{
+    font-style: normal;
+    font-weight: 500;
+
+    margin-bottom: 15px;
+    color: #5C5C5C;
+    list-style: none;
+}
+.card-main-chart li span{
+    opacity: 0.8;
+}
+.all-table{
+    max-height: 700px;
+    overflow-y: auto;
+}
+@media (max-width: 576px) {
+    .all-table{
+        overflow: auto;
+    }
+    .container-fluid{
+        width: 100% ;
+        height: 100%;
+    }
+    .cabinet .sm{
+        width: 100%;
+        height: auto;
+        scale: 0.6;
+        padding: 15px;
+        margin-top: -100px !important;
+
+    }
+    .cabinet .lg{
+        width: 100%;
+        height: auto;
+        scale: 0.6 !important;
+        margin-top: -100px !important;
+        margin-bottom: -50px;
+    }
+    .full{
+        scale: 1 !important;
+        height: auto !important;
+    }
+    .fulltable .scroll-table{
+        scale: 0.5;
+        margin-top: -100px;
+    }
+    .full .none{
+        display: none;
+    }
+}
+.sm2x{
+    height: 300px;
+}
+

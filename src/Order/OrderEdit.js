@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
 import axios from "axios";
 
-function TourEdit({ visible, onOk, onCancel, tourInfo }) {
+function OrderEdit({ visible, onOk, onCancel, tourInfo }) {
     const [tour, setTour] = useState({
         name: "",
         price: 2.2,
@@ -66,4 +66,4 @@ function TourEdit({ visible, onOk, onCancel, tourInfo }) {
     );
 }
 
-export default TourEdit;
+export default OrderEdit;
