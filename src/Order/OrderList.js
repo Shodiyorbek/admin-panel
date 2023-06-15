@@ -1,35 +1,18 @@
 import React, {useState} from 'react';
 import axios from "axios";
-import OrderEdit from "./OrderEdit";
+
 import '../style.css'
+import AuthServise from "../AuthServise";
 
-function OrderList({tourList}) {
-    const [product,setProduct] = useState({});
-    const [visible, setVisible] = useState(false);
-
-
-    const handleDelete = (id) => {
-        axios.delete("http://localhost:8080/api/order/" + id).then((res) => {
-            console.log(res.data)
-            window.location.reload()
-        })
-    }
-
-    const showModal = (props) => {
-        setProduct(props)
-        setVisible(true);
-    };
-    const handleOk = () => {
-        console.log("clicked ok")
-        setVisible(false)
-        window.location.reload()
-    }
-
-    const handleCancel = () => {
-        console.log("clicked cancel")
-        setVisible(false)
-    }
-
+function OrderList({productList}) {
+    // const [quatity,allQuantity]=useState(0)
+    // const [profit,allProfit]=useState(0)
+    // const [sellingPrice,allSellingPrice]=useState(0)
+    // const [piurchesePrice,allPurchesePrice]=useState(0)
+    let quantity=0;
+    let profit=0;
+    let sellingPrice=0;
+    let purchesePrice=0;
 
 
     return (
@@ -37,28 +20,45 @@ function OrderList({tourList}) {
             <div className="py-4">
                 <table className="table border shadow">
                     <thead>
-                    <tr>
+                    <tr style={{textAlign:"center"}}>
                         <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">period</th>
-                        <th scope="col">Image</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Purchese price</th>
+                        <th scope="col">Selling price</th>
+                        <th scope="col">Profit</th>
+
+
                     </tr>
                     </thead>
                     <tbody>
-                    {tourList.map((tour) => (
-                        <tr>
-                            <td>{tour.name}</td>
-                            <td>{tour.price}</td>
-                            <td>{tour.period}</td>
-                            <td className={"img"} ><img  src={"http://localhost:8080/images/"+tour.imageUrl}/></td>
-                            <td><button onClick={()=>handleDelete(tour.imageUrl)} className={"btn btn-danger"}>Delete</button></td>
-                            <td><button  onClick={()=>showModal(tour)} className={"btn btn-primary"}>Edit</button></td>
+                    {productList.map((product) => (
 
+                        <tr>
+                            <td>{product.productResponse.name}</td>
+                            <td>{product.quantity}</td>
+                            <td>{product.productResponse.purchasePrice}</td>
+                            <td>{product.productResponse.sellingPrice}</td>
+                            <td>{product.profit}</td>
+
+
+<div style={{display:"none"}}>
+                            {quantity=quantity+product.quantity}
+                            {profit=profit+product.profit}
+                            {sellingPrice=sellingPrice+product.productResponse.sellingPrice}
+                            {purchesePrice=purchesePrice+product.productResponse.purchasePrice}
+</div>
                         </tr>
+
                     ))}
+                    <tr>
+                        <td>All</td>
+                        <td>{quantity}</td>
+                        <td>{purchesePrice}</td>
+                        <td>{sellingPrice}</td>
+                        <td>{profit}</td>
+                    </tr>
                     </tbody>
                 </table>
-                <OrderEdit productInfo={product} visible={visible} onOk={handleOk} onCancel={handleCancel}/>
             </div>
         </div>
     );

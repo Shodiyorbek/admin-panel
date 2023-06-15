@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Button} from "antd";
-import ProductAdd from "./ProductAdd";
-import ProductList from "./ProductList";
-import ProductReport from "./ProductReport";
+import InputAdd from "./InputAdd";
+import InputList from "./InputList";
 
-function Product({isAdmin}) {
+function Input({isAdmin}) {
 
     const [productLIst, setProductLsit] = useState([]);
     const [visible, setVisible] = useState(false);
@@ -18,7 +17,7 @@ function Product({isAdmin}) {
     }, [])
 
     const getProductList = () => {
-        axios.get(`http://localhost:8080/api/product/all`).then((response) => {
+        axios.get(`http://localhost:8080/api/input/all`).then((response) => {
             console.log(response.data)
             setProductLsit(response.data)
         }).catch((error)=>{
@@ -40,13 +39,12 @@ function Product({isAdmin}) {
     return (
         <div className={"main"}>
 
-                <Button type="primary" onClick={showModal}>Add Product</Button>
+                <Button type="primary" onClick={showModal}>Add Input</Button>
 
-            <ProductAdd categoryList={productLIst} visible={visible} onOk={handleOk} onCancel={handleCancel}/>
-            <ProductList productList={productLIst} />
-
+            <InputAdd categoryList={productLIst} visible={visible} onOk={handleOk} onCancel={handleCancel}/>
+            <InputList productList={productLIst} />
         </div>
     );
 }
 
-export default Product;
+export default Input;

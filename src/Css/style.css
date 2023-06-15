@@ -240,6 +240,9 @@ td{
   .scroll-table{
       overflow-y: scroll;
   }
+  label{
+      color: black !important;
+  }
 
 .scroll-table::-webkit-scrollbar{
     display: none;

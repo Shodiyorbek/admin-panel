@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
 import axios from "axios";
-import ProductEdit from "./ProductEdit";
+
 import '../style.css'
 import AuthServise from "../AuthServise";
-import OrderAdd from "../Order/OrderAdd";
-import {Button} from "antd";
 
-function ProductList({productList,isAdmin}) {
+function InputList({productList,isAdmin}) {
     const [product,setProduct] = useState({});
     const [visible, setVisible] = useState(false);
     const[order,setOrder]=useState({});
@@ -73,34 +71,33 @@ function ProductList({productList,isAdmin}) {
                     <thead>
                     <tr style={{textAlign:"center"}}>
                         <th scope="col">Name</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Supplier name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
                         <th scope="col">Date</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Order</th>
+                        <th scope="col">Total price</th>
 
                     </tr>
                     </thead>
                     <tbody>
                     {productList.map((product) => (
                         <tr>
-                            <td>{product.name}</td>
-                            <td>{product.description}</td>
+                            <td>{product.productResponse.name}</td>
+                            <td>{product.supplierResponse.fullName}</td>
+                            <td>{product.price}</td>
+                            <td>{product.quantity}</td>
                             <td>{product.date}</td>
+                            <td>{product.totalPrice}</td>
 
-
-                                    <td><button  onClick={()=>showModal(product)} className={"btn btn-primary"}>Edit</button></td>
-                                    <td> {product.currentQuantity?<OrderAdd product={product}/>:            <Button type="primary" >Order</Button>
-                                    } </td>
 
 
                         </tr>
                     ))}
                     </tbody>
                 </table>
-                <ProductEdit info={product} visible={visible} onOk={handleOk} onCancel={handleCancel}/>
             </div>
         </div>
     );
 }
 
-export default ProductList;
+export default InputList;

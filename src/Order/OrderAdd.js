@@ -1,31 +1,36 @@
-import React, { useState } from "react";
-import {  Modal } from "antd";
+import React, {useEffect, useState} from "react";
+import {Button, Modal} from "antd";
 import axios from "axios";
 
-function OrderAdd({ visible, onOk, onCancel }) {
-    const [tour, setTour] = useState({
-        name: "",
-        price: 2.2,
-        period: 2,
-        image: null,
-    });
+function OrderAdd({product}) {
+    const [tour, setTour] = useState({});
+    const [productLIst, setProductLsit] = useState([]);
+    const [supplier, setSupplier] = useState([]);
+    const [visible, setVisible] = useState(false);
 
+
+
+    const handleOk = () => {
+        console.log("clicked ok")
+        setVisible(false)
+
+    }
+
+    const handleCancel = () => {
+        console.log("clicked cancel")
+        setVisible(false)
+    }
     const onOkItSelf = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("name", tour.name);
-        formData.append("price", tour.price);
-        formData.append("period", tour.period);
-        formData.append("image", tour.image);
-
+console.log(tour)
         axios
-            .post("http://localhost:8080/api/v1/tour", formData, {
+            .post("http://localhost:8080/api/order/", tour, {
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 },
             })
             .then((res) => {
-                onOk();
+                handleOk();
             })
             .catch((error) => {
                 console.log(error);
@@ -33,34 +38,53 @@ function OrderAdd({ visible, onOk, onCancel }) {
     };
 
     const handleInputChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.type === 'file' ? e.target.files[0] : e.target.value;
+
         setTour({
             ...tour,
-            [name]: value,
+            [e.target.name]: e.target.value,
+            productId:product.id,
+            purchasePrice:product.purchasePrice
+
         });
     };
 
+    useEffect(() => {
+        axios.get(`http://localhost:8080/api/product/all`).then((response) => {
+            console.log(response.data)
+            setProductLsit(response.data)
+        }).catch((error)=>{
+            console.log(error)
+        })
+        axios.get(`http://localhost:8080/api/supplier/all`).then((response) => {
+            console.log(response.data)
+            setSupplier(response.data)
+        }).catch((error)=>{
+            console.log(error)
+        })
+    }, [])
+    const showModal = () => {
+        setVisible(true);
+    };
 
     return (
         <>
-            <Modal title="Basic Modal" open={visible} onOk={onOkItSelf} onCancel={onCancel}>
+            <Button type="primary" onClick={showModal}>Order</Button>
+
+            <Modal title="Basic Modal" open={visible} onOk={onOkItSelf} onCancel={handleCancel}>
+
+
                 <div className="form-group">
-                    <label htmlFor="">Image</label>
-                    <input type="file" className="form-control" onChange={handleInputChange} name="image" />
+                    <label htmlFor="">Amout (max:{product.currentQuantity})</label>
+                    <input type="number" className="form-control" onChange={handleInputChange} name="quantity" />
+                </div><div className="form-group">
+                    <label htmlFor="">Price (suggested:{product.sellingPrice})</label>
+                    <input type="number" className="form-control" onChange={handleInputChange} name="sellingPrice" />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="">Tour name</label>
-                    <input type="text" className="form-control" onChange={handleInputChange} name="name" />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="">Price(UZS)</label>
-                    <input type="text" className="form-control" onChange={handleInputChange} name="price" />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="">Period</label>
-                    <input type="text" className="form-control" onChange={handleInputChange} name="period" />
-                </div>
+
+
+
+
+
             </Modal>
         </>
     );

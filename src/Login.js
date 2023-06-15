@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import Input from "antd/es/input/Input";
-import '../Css/Reagister.css'
+import './Css/Reagister.css'
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
-import Main from "../Main";
-import {render} from "react-dom";
+
 
 const Login = () => {
     const [user,setUser]=useState({});
@@ -25,10 +24,11 @@ const Login = () => {
 
 localStorage.setItem("accessToken", res.data.accessToken);
 localStorage.setItem("refreshToken", res.data.refreshToken);
-                window.location.reload()
+                window.location.href='/product'
 
 
             }).catch((error)=>{
+                console.log(error)
             toast.error('Username or password incorrect!', {
                 position: toast.POSITION.TOP_RIGHT
             });
@@ -66,7 +66,7 @@ localStorage.setItem("refreshToken", res.data.refreshToken);
                     </div>
                     <div className="buttons">
                         <button onClick={handleSubmit} className="btn btn-primary">Tizimga kirish</button>
-                        <a href="/register">Register</a>
+
 
                     </div>
                 </div>

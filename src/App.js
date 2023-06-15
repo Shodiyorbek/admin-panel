@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
-import Auth from "./Auth";
+import './Css/style.css'
 import Main from "./Main";
+import Login from "./Login";
 
 function App() {
     const [isLoggIn,setIsLoggin]=useState('')
@@ -23,7 +24,7 @@ function App() {
     }, [])
   return (
      <>
-         {isLoggIn?<Main/>:<Auth/>}
+         {isLoggIn?<Main/>:<Login/>}
      </>
   );
 }
